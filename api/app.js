@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const ClientService = require('./clients/client.service');
@@ -7,7 +8,10 @@ const isAdmin = require('./middleware/admin');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
+
+app.options('*', cors());
 
 // Login
 app.post('/login', (req, res) => {
