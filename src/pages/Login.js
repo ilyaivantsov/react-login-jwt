@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import '../css/Login.css';
-import { useCustomer, useClient } from "../store";
+import { useCustomer, useClient } from '../store';
 
 const Login = () => {
     const client = useClient();
@@ -11,18 +11,18 @@ const Login = () => {
     const onSubmit = (event) => {
         event.preventDefault();
 
-        // const [email, password] = event.target.elements;
+        const [email, password] = event.target.elements;
 
         client
-            .getClient()
-            .then(({ token }) => {
-                // client.setHeader("authorization", `Bearer ${token}`);
-                console.log(token)
-                setCustomer({ customer: { token: 'aaaaa' } });
-
-                history.push("/");
+            .login({
+                email: email.value,
+                password: password.value,
             })
-            .catch(console.log);
+            .then(() => {
+                setCustomer({ email: email.value, active: true });
+                history.push('/');
+            })
+            .catch(console.error)
     };
 
     if (customer) {
