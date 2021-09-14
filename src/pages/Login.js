@@ -1,11 +1,14 @@
 import React from "react";
 import { Redirect, useHistory } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import { AxiosInstance } from '../queries';
 import '../css/Login.css';
-import { useCustomer, useClient } from '../store';
+
+import { useCustomer } from '../store';
 
 const Login = () => {
-    const client = useClient();
     const history = useHistory();
+    const api = AxiosInstance(history);
     const { customer, setCustomer } = useCustomer();
 
     const onSubmit = (event) => {
@@ -13,13 +16,12 @@ const Login = () => {
 
         const [email, password] = event.target.elements;
 
-        client
-            .login({
-                email: email.value,
-                password: password.value,
-            })
-            .then(() => {
-                setCustomer({ email: email.value, active: true });
+        api
+            .post('/login', { email: email.value, password: password.value })
+            .then(({ data: { token } }) => {
+                const client = jwt_decode(token);
+                localStorage.setItem('token', token);
+                setCustomer(client);
                 history.push('/');
             })
             .catch(console.error)

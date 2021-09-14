@@ -1,10 +1,9 @@
 import React from "react";
 import { Redirect, useHistory } from "react-router-dom";
 
-import { useCustomer, useClient } from "../store";
+import { useCustomer } from "../store";
 
 const Home = () => {
-    // const client = useClient();
     const history = useHistory();
     const { customer, setCustomer } = useCustomer();
 
@@ -12,13 +11,7 @@ const Home = () => {
         localStorage.removeItem('token');
         setCustomer(null);
         history.push('/auth/signin');
-
-        // client.request(remove_refresh_token).finally(() => {
-        // history.push("/auth/signin");
-
-        // });
     };
-    console.log(customer);
 
     if (!customer) {
         return <Redirect to="/auth/signin" />;
@@ -56,6 +49,7 @@ const Home = () => {
 
             <div className="mt-5">
                 <h1 className="text-muted text-center">{customer.email}</h1>
+                <p class="mb-0 text-center">{JSON.stringify(customer, null, 4)}</p>
             </div>
         </>
     );

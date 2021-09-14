@@ -1,14 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 const baseURL = process.env.REACT_APP_BACKEND_URL;
 
-export const login = ({ email, password }) => axios
-    .post(`${baseURL}/login`, { email, password })
-    .then(({ data }) => data)
-    .then(({ token }) => localStorage.setItem('token', token))
-
 export const AxiosInstance = (history = null) => {
-
     let headers = {};
 
     if (localStorage.token) {
