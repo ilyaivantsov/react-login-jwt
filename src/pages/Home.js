@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, Link } from "react-router-dom";
 
 import { useCustomer } from "../store";
 
@@ -36,7 +36,17 @@ const Home = () => {
                         <span className="navbar-toggler-icon" />
                     </button>
                     <div className="collapse navbar-collapse" id="navbarCollapse">
-                        <ul className="navbar-nav mr-auto"></ul>
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <Link className="nav-link" to="/">About</Link>
+                            </li>
+                            {customer.role === 'admin' ? (
+                                <li className="nav-item active">
+                                    <Link className="nav-link" to="/admin">Admin</Link>
+                                </li>) :
+                                null
+                            }
+                        </ul>
                         <button
                             onClick={() => logout()}
                             className="btn btn-danger my-2 my-sm-0"
@@ -49,7 +59,7 @@ const Home = () => {
 
             <div className="mt-5">
                 <h1 className="text-muted text-center">{customer.email}</h1>
-                <p class="mb-0 text-center">{JSON.stringify(customer, null, 4)}</p>
+                <p className="mb-0 text-center">{JSON.stringify(customer, null, 4)}</p>
             </div>
         </>
     );

@@ -22,13 +22,13 @@ const Login = () => {
                 const client = jwt_decode(token);
                 localStorage.setItem('token', token);
                 setCustomer(client);
-                history.push('/');
+                history.push('/home');
             })
             .catch(console.error)
     };
 
     if (customer) {
-        return <Redirect to="/" />;
+        return <Redirect to="/home" />;
     }
 
     return (
